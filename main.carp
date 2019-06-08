@@ -1,0 +1,26 @@
+(load "Macros.carp")
+(load "Interfaces.carp")
+
+(load "lib/stm.carp")
+(load "lib/dout.carp")
+
+(system-include "carp_memory.h") ;CARP_MALLOC
+(system-include "string.h") ;strlen
+
+(defn main []
+  (do
+    (STM.init)
+    (let [led  (Dout.init \B 4)
+          led2 (Dout.init \B 5)
+          out  (Dout.init \A 12)]
+      (while true
+        (do
+          (STM.println "test")
+          (Dout.flip led)
+          (Dout.flip out)
+          (STM.delay 300)
+          (Dout.flip led2))))))
+
+; response to callback
+(defn trigger [ch]
+  (STM.println ch))

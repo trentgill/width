@@ -1,0 +1,12 @@
+(load "Macros.carp")
+
+(relative-include "dout.c")
+
+;(deftype Dout [])
+;(register-type Dout [] "Dout")
+
+(defmodule Dout
+  (register init (λ [Char Int] (Ptr Dout)) "dout_init")
+  (register set (λ [(Ptr Dout) Int] ()) "dout_set")
+  (register flip (λ [(Ptr Dout)] ()) "dout_flip")
+)

@@ -1,0 +1,9 @@
+(load "Macros.carp")
+
+(relative-include "stm.c")
+
+(defmodule STM
+  (register init (Fn [] ()) "STM_Init")
+  (register delay (Fn [Int] ()) "HAL_Delay")
+  (register println (Fn [(Ref String)] ()) "STM_println")
+)
