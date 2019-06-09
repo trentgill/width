@@ -1,0 +1,9 @@
+(load "main.carp")
+
+; just build main.c
+(Project.config "generate-only" true)
+
+(Project.config "compiler" "arm-none-eabi-gcc")
+(build)
+
+(quit)

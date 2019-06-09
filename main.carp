@@ -10,16 +10,12 @@
 (defn main []
   (do
     (STM.init)
-    (let [led  (Dout.init \B 4)
-          led2 (Dout.init \B 5)
-          out  (Dout.init \A 12)]
+    (let [led-mode-l (Dout.init \B 15)]
       (while true
         (do
           (STM.println "test")
-          (Dout.flip led)
-          (Dout.flip out)
-          (STM.delay 300)
-          (Dout.flip led2))))))
+          (Dout.flip led-mode-l)
+          (STM.delay 300))))))
 
 ; response to callback
 (defn trigger [ch]

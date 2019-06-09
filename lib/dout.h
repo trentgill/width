@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stm32f3xx.h>
+#include <stm32f7xx.h>
 
 typedef struct{
     GPIO_TypeDef* gpio;

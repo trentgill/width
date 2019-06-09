@@ -51,110 +51,38 @@
   ******************************************************************************
   */
 
-/** @addtogroup CMSIS
-  * @{
-  */
-
-/** @addtogroup stm32f7xx_system
-  * @{
-  */  
-  
-/** @addtogroup STM32F7xx_System_Private_Includes
-  * @{
-  */
-
 #include "stm32f7xx.h"
 
-#if !defined  (HSE_VALUE) 
-  #define HSE_VALUE    ((uint32_t)8000000) /*!< Default value of the External oscillator in Hz */
-#endif /* HSE_VALUE */
+#if !defined  (HSE_VALUE)
+  #define HSE_VALUE ((uint32_t)8000000) // Default value of the External oscillator in Hz
+#endif // HSE_VALUE
 
 #if !defined  (HSI_VALUE)
-  #define HSI_VALUE    ((uint32_t)16000000) /*!< Value of the Internal oscillator in Hz*/
-#endif /* HSI_VALUE */
+  #define HSI_VALUE ((uint32_t)16000000) // Value of the Internal oscillator in Hz
+#endif // HSI_VALUE
 
-/**
-  * @}
-  */
+/////////////////////////////////////
+// Miscellaneous Configuration
 
-/** @addtogroup STM32F7xx_System_Private_TypesDefinitions
-  * @{
-  */
+// Use external SDRAM mounted on DK as data memory
+// #define DATA_IN_ExtSDRAM 
 
-/**
-  * @}
-  */
+// Relocate your vector Table in Internal SRAM
+// #define VECT_TAB_SRAM
 
-/** @addtogroup STM32F7xx_System_Private_Defines
-  * @{
-  */
+// Vector Table base offset field (multiple of 0x200)
+#define VECT_TAB_OFFSET  0x18000
 
-/************************* Miscellaneous Configuration ************************/
-/*!< Uncomment the following line if you need to use external SDRAM mounted
-     on DK as data memory  */
-/* #define DATA_IN_ExtSDRAM */
+////////////////////////////////////////////////////////
 
-/*!< Uncomment the following line if you need to relocate your vector Table in
-     Internal SRAM. */
-/* #define VECT_TAB_SRAM */
-#define VECT_TAB_OFFSET  0x18000 /*!< Vector Table base offset field. 
-                                   This value must be a multiple of 0x200. */
-/******************************************************************************/
+uint32_t SystemCoreClock = 16000000;
+const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+const uint8_t APBPrescTable[8] = {0, 0, 0, 0, 1, 2, 3, 4};
 
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F7xx_System_Private_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F7xx_System_Private_Variables
-  * @{
-  */
-
-  /* This variable is updated in three ways:
-      1) by calling CMSIS function SystemCoreClockUpdate()
-      2) by calling HAL API function HAL_RCC_GetHCLKFreq()
-      3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency 
-         Note: If you use this function to configure the system clock; then there
-               is no need to call the 2 first functions listed above, since SystemCoreClock
-               variable is updated automatically.
-  */
-  uint32_t SystemCoreClock = 16000000;
-  const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-  const uint8_t APBPrescTable[8] = {0, 0, 0, 0, 1, 2, 3, 4};
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F7xx_System_Private_FunctionPrototypes
-  * @{
-  */
 #if defined (DATA_IN_ExtSDRAM)
   static void SystemInit_ExtMemCtl(void); 
 #endif /* DATA_IN_ExtSDRAM */
 
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F7xx_System_Private_Functions
-  * @{
-  */
-
-/**
-  * @brief  Setup the microcontroller system
-  *         Initialize the Embedded Flash Interface, the PLL and update the 
-  *         SystemFrequency variable.
-  * @param  None
-  * @retval None
-  */
 void SystemInit(void)
 {
   /* FPU settings ------------------------------------------------------------*/
@@ -293,7 +221,7 @@ void SystemInit_ExtMemCtl(void)
   /* Enable GPIOC, GPIOD, GPIOE, GPIOF, GPIOG and GPIOH interface 
   clock */
   RCC->AHB1ENR |= 0x000000FC;
-  
+
   /* Connect PCx pins to FMC Alternate function */
   GPIOC->AFR[0]  = 0x0000C000;
   GPIOC->AFR[1]  = 0x00000000;
@@ -305,7 +233,7 @@ void SystemInit_ExtMemCtl(void)
   GPIOC->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PCx pins */
   GPIOC->PUPDR   = 0x00000040;
-  
+
   /* Connect PDx pins to FMC Alternate function */
   GPIOD->AFR[0]  = 0x000000CC;
   GPIOD->AFR[1]  = 0xCC000CCC;
@@ -317,7 +245,7 @@ void SystemInit_ExtMemCtl(void)
   GPIOD->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PDx pins */ 
   GPIOD->PUPDR   = 0x50150005;
-  
+
   /* Connect PEx pins to FMC Alternate function */
   GPIOE->AFR[0]  = 0xC00000CC;
   GPIOE->AFR[1]  = 0xCCCCCCCC;
@@ -329,7 +257,7 @@ void SystemInit_ExtMemCtl(void)
   GPIOE->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PEx pins */ 
   GPIOE->PUPDR   = 0x55554005;
-  
+
   /* Connect PFx pins to FMC Alternate function */
   GPIOF->AFR[0]  = 0x00CCCCCC;
   GPIOF->AFR[1]  = 0xCCCCC000;
@@ -341,7 +269,7 @@ void SystemInit_ExtMemCtl(void)
   GPIOF->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PFx pins */ 
   GPIOF->PUPDR   = 0x55400555;
-  
+
   /* Connect PGx pins to FMC Alternate function */
   GPIOG->AFR[0]  = 0x00CC00CC;
   GPIOG->AFR[1]  = 0xC000000C;
@@ -353,7 +281,7 @@ void SystemInit_ExtMemCtl(void)
   GPIOG->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PGx pins */ 
   GPIOG->PUPDR   = 0x40010505;
-  
+
   /* Connect PHx pins to FMC Alternate function */
   GPIOH->AFR[0]  = 0x00C0C000;
   GPIOH->AFR[1]  = 0x00000000;
@@ -365,16 +293,16 @@ void SystemInit_ExtMemCtl(void)
   GPIOH->OTYPER  = 0x00000000;
   /* No pull-up, pull-down for PHx pins */ 
   GPIOH->PUPDR   = 0x00000440;
-  
-  /* Enable the FMC interface clock */
+
+  // Enable the FMC interface clock
   RCC->AHB3ENR |= 0x00000001;
-  
-  /* Configure and enable SDRAM bank1 */
+
+  // Configure and enable SDRAM bank1
   FMC_Bank5_6->SDCR[0]  = 0x00001954;
   FMC_Bank5_6->SDTR[0]  = 0x01115351;
-  
-  /* SDRAM initialization sequence */
-  /* Clock enable command */
+
+  // SDRAM initialization sequence
+  // Clock enable command
   FMC_Bank5_6->SDCMR = 0x00000011; 
   tmpreg = FMC_Bank5_6->SDSR & 0x00000020; 
   while((tmpreg != 0) && (timeout-- > 0))
@@ -382,41 +310,41 @@ void SystemInit_ExtMemCtl(void)
     tmpreg = FMC_Bank5_6->SDSR & 0x00000020; 
   }
 
-  /* Delay */
+  // Delay
   for (index = 0; index<1000; index++);
-  
-  /* PALL command */
-  FMC_Bank5_6->SDCMR = 0x00000012;           
+
+  // PALL command
+  FMC_Bank5_6->SDCMR = 0x00000012;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
-    tmpreg = FMC_Bank5_6->SDSR & 0x00000020; 
+    tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   }
-  
-  /* Auto refresh command */
+
+  // Auto refresh command
   FMC_Bank5_6->SDCMR = 0x000000F3;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
-    tmpreg = FMC_Bank5_6->SDSR & 0x00000020; 
+    tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   }
- 
-  /* MRD register program */
+
+  // MRD register program
   FMC_Bank5_6->SDCMR = 0x00044014;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
-    tmpreg = FMC_Bank5_6->SDSR & 0x00000020; 
-  } 
-  
-  /* Set refresh count */
+    tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
+  }
+
+  // Set refresh count
   tmpreg = FMC_Bank5_6->SDRTR;
   FMC_Bank5_6->SDRTR = (tmpreg | (0x0000050C<<1));
-  
-  /* Disable write protection */
-  tmpreg = FMC_Bank5_6->SDCR[0]; 
+
+  // Disable write protection
+  tmpreg = FMC_Bank5_6->SDCR[0];
   FMC_Bank5_6->SDCR[0] = (tmpreg & 0xFFFFFDFF);
-  
+
   /*
    * Disable the FMC bank1 (enabled after reset).
    * This, prevents CPU speculation access on this bank which blocks the use of FMC during
@@ -426,15 +354,4 @@ void SystemInit_ExtMemCtl(void)
 }
 #endif /* DATA_IN_ExtSDRAM */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */    
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

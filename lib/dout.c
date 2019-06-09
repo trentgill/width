@@ -1,6 +1,6 @@
 #include "dout.h"
 
-#include <stm32f3xx.h>
+#include <stm32f7xx.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,6 +18,9 @@ Dout* dout_init( char gpio, int pin )
         case 'b': case 'B': __HAL_RCC_GPIOB_CLK_ENABLE(); d->gpio = GPIOB; break;
         case 'c': case 'C': __HAL_RCC_GPIOC_CLK_ENABLE(); d->gpio = GPIOC; break;
         case 'd': case 'D': __HAL_RCC_GPIOD_CLK_ENABLE(); d->gpio = GPIOD; break;
+        case 'e': case 'E': __HAL_RCC_GPIOE_CLK_ENABLE(); d->gpio = GPIOE; break;
+        case 'f': case 'F': __HAL_RCC_GPIOF_CLK_ENABLE(); d->gpio = GPIOF; break;
+        case 'g': case 'G': __HAL_RCC_GPIOG_CLK_ENABLE(); d->gpio = GPIOG; break;
         default: printf("dout pin not found\n"); return NULL;
     }
     d->pin   = 1 << pin;

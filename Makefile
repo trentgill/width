@@ -52,6 +52,8 @@ SRC = out/main.c \
 	$(HAL)/stm32f7xx_hal_flash.c \
 	$(HAL)/stm32f7xx_hal_flash_ex.c \
 	$(HAL)/stm32f7xx_hal_gpio.c \
+	$(HAL)/stm32f7xx_hal_pwr.c \
+	$(HAL)/stm32f7xx_hal_pwr_ex.c \
 	$(HAL)/stm32f7xx_hal_rcc.c \
 	$(HAL)/stm32f7xx_hal_rcc_ex.c \
 
