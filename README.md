@@ -2,8 +2,9 @@
 
 Experiment in using the Carp language to write for an embedded system.
 
-This project uses the `W/` Eurorack module as the hardware platform,
+This project uses the [W/](https://www.whimsicalraps.com/products/wslash) Eurorack module as the hardware platform,
 providing:
+
 
 * 1x1 Audio in/out
 * 2x CV in/out (configurable)
